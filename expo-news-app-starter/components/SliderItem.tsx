@@ -1,6 +1,6 @@
 import {Image,Dimensions, StyleSheet, Text, View} from "react-native";
 import {NewsDataType} from "@/types";
-import {SharedValue} from "react-native-reanimated";
+import Animated, {Extrapolation, interpolate, SharedValue, useAnimatedStyle} from "react-native-reanimated";
 import {LinearGradient} from "expo-linear-gradient";
 import {Colors} from "@/constants/Colors";
 
@@ -14,9 +14,31 @@ type Props = {
 const {width} = Dimensions.get("screen");
 
 const SliderItem = ({sliderItem,index,scrollx}: Props) => {
-    
+    const rnStyle = useAnimatedStyle(() => {
+        return {
+            transform: [
+                {
+                    translateX: interpolate(
+                        scrollx.value,
+                        [(index - 1) * width, index * width, (index + 1) * width],
+                        [-width * 0.15, 0, width * 0.15],
+                        Extrapolation.CLAMP
+                    ),
+                },
+                {
+                    scale: interpolate(
+                        scrollx.value,
+                        [(index - 1) * width, index * width, (index + 1) * width],
+                        [0.9, 1, 0.9],
+                        Extrapolation.CLAMP
+                    ),
+                },
+            ],
+        };
+    });
+
     return (
-        <View style={styles.itemWrapper}>
+        <Animated.View style={[styles.itemWrapper,rnStyle]}>
             <Image source={{uri:sliderItem.image_url}} style={styles.image}/>
             <LinearGradient  colors={["transparent",'rgba(0,0,0,0.8)']} style={styles.background}>
                 <View style={styles.sourceInfo}>
@@ -27,7 +49,7 @@ const SliderItem = ({sliderItem,index,scrollx}: Props) => {
                 </View>
                 <Text style={styles.title} numberOfLines={2}>{sliderItem.title}</Text>
             </LinearGradient>
-        </View>
+        </Animated.View>
     )
 }
 
