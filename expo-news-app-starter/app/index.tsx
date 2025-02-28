@@ -10,14 +10,11 @@ const Page = () => {
   return (
     <View style={styles.container}>
         <StatusBar style="light"/>
-        <ImageBackground source={require('@/assets/images/getting-started.jpg')} style={{flex: 1}} resizeMode={'cover'} >
+        <ImageBackground source={require('@/assets/images/newspaper.jpeg')} style={{flex: 1}} resizeMode={'cover'} >
             <View style={styles.wrapper}>
                 <Animated.Text style={styles.title} entering={FadeInRight.delay(300).duration(500)}>Stay Updated</Animated.Text>
                 <Animated.Text style={styles.description} entering={FadeInLeft.delay(700).duration(500)}>Get the latest and personalized news with ease</Animated.Text>
                 <Animated.View entering={FadeInDown.delay(1200).duration(500)}>
-                    <TouchableOpacity style={styles.btn} onPress={() => router.replace("/(tabs)")}>
-                        <Text style={styles.btnText}>Get Started</Text>
-                    </TouchableOpacity>
                     <TouchableOpacity style={styles.btn} onPress={() => router.replace("login")}>
                         <Text style={styles.btnText}>Login</Text>
                     </TouchableOpacity>

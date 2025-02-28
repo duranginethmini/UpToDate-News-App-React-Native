@@ -126,14 +126,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#e0e0e0",
   },
   selectedItem: {
-    backgroundColor: "#009688", // Highlight selected item
+    backgroundColor: "#0056b3", // Highlight selected item
   },
   categoryText: {
     color: "#000",
     fontWeight: "500",
   },
   searchBtn: {
-    backgroundColor: "#009688",
+    backgroundColor: "#0056b3",
     alignItems: "center",
     padding: 12,
     borderRadius: 25,

@@ -14,6 +14,7 @@ import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { router, Stack } from "expo-router";
+import {Colors} from "@/constants/Colors";
 
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
@@ -51,7 +52,7 @@ const LoginScreen = () => {
 
     return (
         <ImageBackground
-            source={require('../../assets/images/getting-started.jpg')}  // Update path accordingly
+            source={require('../../assets/images/login.jpg')}  // Update path accordingly
             style={styles.background}
             resizeMode="cover"
         >
@@ -127,7 +128,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.4)', // Optional overlay effect
     },
     title: {
-        color: "#000",
+        color: Colors.white,
         fontSize: 28,
         fontWeight: "bold",
         marginBottom: 10,
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     loginButton: {
-        backgroundColor: "#009688",
+        backgroundColor: "#0056b3",
         paddingVertical: 15,
         borderRadius: 25,
         alignItems: "center",
@@ -182,7 +183,7 @@ const styles = StyleSheet.create({
         marginTop: 15,
     },
     registerLink: {
-        color: "#06b6a7",
+        color: "#0056b3",
         fontWeight: "bold",
     },
 });

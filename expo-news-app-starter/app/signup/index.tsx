@@ -41,7 +41,7 @@ const SignUpScreen = () => {
 
     return (
         <ImageBackground
-            source={require('../../assets/images/getting-started.jpg')} // Update path accordingly
+            source={require('../../assets/images/login.jpg')} // Update path accordingly
             style={styles.background}
             resizeMode="cover"
         >
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     loginButton: {
-        backgroundColor: "#009688",
+        backgroundColor: "#0056b3",
         paddingVertical: 15,
         borderRadius: 25,
         alignItems: "center",
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
         marginTop: 15,
     },
     registerLink: {
-        color: "#6bf1dd",
+        color: "#0056b3",
         fontWeight: "bold",
     },
 });
