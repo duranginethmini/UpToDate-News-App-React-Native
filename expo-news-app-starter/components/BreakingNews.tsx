@@ -1,9 +1,15 @@
-import { FlatList, StyleSheet, Text, View, ViewToken } from "react-native";
+import {FlatList, StyleSheet, Text, useWindowDimensions, View, ViewToken} from "react-native";
 import { Colors } from "@/constants/Colors";
 import { NewsDataType } from "@/types";
 import SliderItem from "@/components/SliderItem";
-import { useRef, useState } from "react";
-import Animated, { useAnimatedRef, useAnimatedScrollHandler, useSharedValue } from "react-native-reanimated";
+import {useEffect, useRef, useState} from "react";
+import Animated, {
+    scrollTo,
+    useAnimatedRef,
+    useAnimatedScrollHandler,
+    useDerivedValue,
+    useSharedValue
+} from "react-native-reanimated";
 import Pagination from "@/components/Pagination";
 
 type Props = {
@@ -15,6 +21,37 @@ const BreakingNews = ({ newsList }: Props) => {
     const [data, setData] = useState(newsList);
     const scrollx = useSharedValue(0);
     const ref = useAnimatedRef<Animated.FlatList<any>>();
+    const [isAutoPlay, setIsAutoPlay] = useState(true);
+    const interval = useRef<NodeJS.Timeout>();
+    const offset = useSharedValue(0);
+    const { width } = useWindowDimensions();
+
+    const onScrollHandler = useAnimatedScrollHandler({   //continue from here
+        onScroll: (e) => {
+            scrollx.value = e.contentOffset.x;
+        },
+        onMomentumEnd: (e) => {
+            offset.value = e.contentOffset.x;
+        },
+    });
+
+    useEffect(() => {
+        if (isAutoPlay) {
+            interval.current = setInterval(() => {
+                offset.value += width;
+                ref.current?.scrollToOffset({ animated: true, offset: offset.value });
+            }, 5000);
+        } else {
+            clearInterval(interval.current);
+        }
+        return () => {
+            clearInterval(interval.current);
+        };
+    }, [isAutoPlay, offset, width]);
+
+    useDerivedValue(() => {
+       scrollTo(ref,offset.value,0,true);
+    });
 
     const onViewableItemsChanged = ({
                                         viewableItems,
@@ -36,11 +73,7 @@ const BreakingNews = ({ newsList }: Props) => {
         { viewabilityConfig, onViewableItemsChanged },
     ]); // ✅ No need to call `.current()`
 
-    const onScrollHandler = useAnimatedScrollHandler({
-        onScroll: (e) => {
-            scrollx.value = e.contentOffset.x;
-        },
-    });
+
 
     return (
         <View style={styles.container}>
@@ -60,7 +93,13 @@ const BreakingNews = ({ newsList }: Props) => {
                     scrollEventThrottle={16}
                     onEndReachedThreshold={0.5}
                     onEndReached={() => setData([...data, ...newsList])}
-                    viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current} // ✅ Use `.current`, not `.current()`
+                    viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
+                    onScrollBeginDrag={() => {
+                        setIsAutoPlay(false);
+                    }}
+                    onScrollEndDrag={() => {
+                        setIsAutoPlay(true);
+                    }}
                 />
                 <Pagination items={newsList} scrollx={scrollx} paginationIndex={paginationIndex} />
             </View>
