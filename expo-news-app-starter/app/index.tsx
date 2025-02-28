@@ -18,6 +18,9 @@ const Page = () => {
                     <TouchableOpacity style={styles.btn} onPress={() => router.replace("/(tabs)")}>
                         <Text style={styles.btnText}>Get Started</Text>
                     </TouchableOpacity>
+                    <TouchableOpacity style={styles.btn} onPress={() => router.replace("login")}>
+                        <Text style={styles.btnText}>Login</Text>
+                    </TouchableOpacity>
                 </Animated.View>
             </View>
             </ImageBackground>
